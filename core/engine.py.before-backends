@@ -1,0 +1,48 @@
+from typing import List, Callable
+from .result import Result
+import re
+
+
+def run_modules(target: str, modules: List[Callable], max_workers: int = 8) -> List[Result]:
+    """
+    Runs modules one by one in order (line by line).
+    """
+    results = []
+
+    for mod in modules:
+        try:
+            result = mod(target)
+            results.append(result)
+        except Exception as e:
+            results.append(
+                Result(
+                    site="unknown",
+                    exists=None,
+                    info={},
+                    error=str(e)
+                )
+            )
+
+    # Add the additional email presence checker automatically.
+    # main.py does not need to be changed.
+    if re.fullmatch(
+        r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}',
+        target
+    ):
+        try:
+            from email_modules.holehe_adapter import validate_holehe
+
+            holehe_results = validate_holehe(target)
+            results.extend(holehe_results)
+
+        except Exception as e:
+            results.append(
+                Result(
+                    site="Email Services",
+                    exists=None,
+                    info={},
+                    error=str(e)
+                )
+            )
+
+    return results
