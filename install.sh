@@ -34,6 +34,10 @@ echo "[+] Updating Termux package information..."
 pkg update -y
 
 echo
+echo "[+] Installing Termux build dependencies..."
+pkg install -y python clang make pkg-config rust libxml2 libxslt openssl libffi
+
+echo
 echo "[+] Installing required Termux packages..."
 pkg install -y python
 
@@ -74,10 +78,12 @@ else
 fi
 
 echo
-echo "[+] Installing SpiderFoot dependencies..."
+echo "[+] Checking SpiderFoot dependencies..."
 
 if [ -f "$HOME/spiderfoot/requirements.txt" ]; then
-    python -m pip install -r "$HOME/spiderfoot/requirements.txt"
+    echo "[INFO] SpiderFoot dependencies are optional."
+    echo "[INFO] Skipping automatic installation to avoid blocking My OSINT."
+    echo "[INFO] Install compatible SpiderFoot dependencies separately if needed."
 fi
 
 echo
