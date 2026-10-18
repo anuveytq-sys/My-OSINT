@@ -1,165 +1,82 @@
-🔎 My OSINT
+# My-OSINT Desktop
 
-My OSINT is a lightweight, modular OSINT (Open-Source Intelligence) toolkit designed for Termux on Android.
+A browser-based dashboard for the existing My-OSINT email, phone, and username workflows. The CLI remains available; the web app is an additional interface that calls the existing Python modules and engine.
 
-It brings multiple OSINT capabilities together behind a simple command-line interface, allowing you to investigate emails, phone numbers, and usernames from one tool.
+**Important:** scans make real requests to external services. Service APIs and website behaviour change; requests may be rate-limited, blocked, incomplete, or return false signals. A result is not proof of identity. Use only for lawful, authorized research.
 
-⚠️ For authorized and lawful use only. Only investigate information you have permission or a legitimate reason to access.
+## Features
 
-⸻
+- Dark neon investigation dashboard, responsive on desktop and mobile.
+- Email scans using the existing GitHub, Reddit, Instagram, X and Holehe modules, plus configured SpiderFoot email modules.
+- Phone scans using existing number metadata modules and optional PhoneInfoga / SpiderFoot integrations.
+- Username scans through the existing `user-scanner -u` command.
+- Live scan state and operation feed, structured results, local SQLite history, JSON export.
+- The original `python main.py -e`, `-p`, and `-u` CLI remains available.
 
-✨ Features
+## Run on Windows (PowerShell)
 
-📧 Email OSINT
+Install Python 3.11 or newer from [python.org](https://www.python.org/downloads/), and enable **Add Python to PATH** during setup. Then open PowerShell:
 
-* Email presence checks
-* Multiple email-service checks
-* Holehe-powered account discovery
-* SpiderFoot-based email modules
-* Structured results and error handling
-
-📱 Phone OSINT
-
-* Phone number information
-* PhoneInfoga integration
-* SpiderFoot phone module
-* Supports international phone formats
-
-👤 Username OSINT
-
-* Username discovery across supported platforms
-* User-scanner integration
-* Organized scan output
-
-⚡ Modular Architecture
-
-My OSINT is designed around independent modules, making it easier to maintain and extend with additional OSINT capabilities.
-
-⸻
-
-📱 Requirements
-
-* Android device
-* Termux
-* Internet connection
-* ARM64 Android is recommended for the bundled PhoneInfoga binary
-
-⸻
-
-🚀 Installation on Termux
-
-Open Termux and run:
-
-pkg update -y
-pkg upgrade -y
-pkg install -y git
-termux-setup-storage
-
-Allow Termux storage permission when Android asks.
-
-Then clone the repository:
-
+```powershell
 git clone https://github.com/anuveytq-sys/My-OSINT.git
-
-Enter the directory:
-
 cd My-OSINT
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\run-web.ps1
+```
 
-Run the installer:
+Open **http://127.0.0.1:5050** in your browser. Keep the PowerShell window open while using the app. Stop it with Ctrl+C.
 
-bash install.sh
+The first run creates a local `.venv` and installs the Python requirements. The SQLite scan history is stored locally in `myosint_history.sqlite3` (ignored by Git).
 
-When the installer asks:
+## Run on Termux / Linux / macOS
 
-Continue with installation? [y/N]:
+```bash
+git clone https://github.com/anuveytq-sys/My-OSINT.git
+cd My-OSINT
+python -m venv .venv
+# Termux may need its supported Python packages and pip workflow.
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+python webapp.py
+```
 
-Type:
+Open **http://127.0.0.1:5050** on the same device. On Android, a browser on the same device can access the local server. The existing Termux-specific `install.sh` is still available for its original setup.
 
-y
+## CLI remains available
 
-The installer will set up the required components and dependencies.
-
-⸻
-
-🛠️ Running My OSINT
-
-📧 Scan an Email
-
+```bash
 python main.py -e "example@example.com"
-
-📱 Scan a Phone Number
-
-Use an international format:
-
 python main.py -p "+919876543210"
-
-👤 Scan a Username
-
 python main.py -u "example_username"
+```
 
-⸻
+## Optional third-party integrations
 
-📖 Command Help
+PhoneInfoga and SpiderFoot are optional external programs, not Python modules bundled by this web UI. If installed outside the default locations, configure their paths before starting the app.
 
-To view the available options:
+PowerShell example:
 
-python main.py --help
+```powershell
+$env:MYOSINT_PHONEINFOGA = "C:\\tools\\phoneinfoga\\phoneinfoga.exe"
+$env:MYOSINT_SPIDERFOOT = "C:\\tools\\spiderfoot\\sf.py"
+$env:MYOSINT_SPIDERFOOT_DIR = "C:\\tools\\spiderfoot"
+.\run-web.ps1
+```
 
-⸻
+The configured files and their own dependencies must exist. If a backend is not installed or compatible with your operating system, its result will show an error; the other modules can still run. External tool behaviour is not guaranteed across platforms.
 
-🧩 Third-Party Components
+## Security and deployment
 
-My OSINT uses third-party open-source projects to provide some of its functionality, including:
+By default, the server binds to **127.0.0.1**, so it is accessible only from your own device. Do not change the host to `0.0.0.0` or expose this dashboard to the public internet as-is. Before public hosting, add authentication, CSRF protections, rate limiting, job limits, secure secret handling, deployment-grade server configuration, and a review of data retention. Scan targets and results are stored locally in the SQLite history file.
 
-* Holehe — email account checks
-* user-scanner — username discovery
-* PhoneInfoga — phone-number OSINT
-* SpiderFoot — OSINT modules
+## Notes on accuracy
 
-Their respective licenses and notices should be retained where applicable.
+- “FOUND” is a candidate signal, not confirmation that a person owns an account.
+- “NOT FOUND” can mean a service did not expose a signal; it does not prove absence.
+- “ERROR / UNKNOWN” includes module failures, blocked requests, and unavailable integrations.
+- Phone metadata such as region, carrier and time zones is based on numbering-plan metadata; it does not reveal a live GPS location.
+- The current app preserves the existing module set; it cannot make third-party APIs return data they do not expose.
 
-⸻
+## License
 
-⚠️ Disclaimer
-
-My OSINT is intended for educational, research, security, and other lawful purposes.
-
-Do not use this software to:
-
-* Access private accounts
-* Bypass authentication
-* Harass or stalk individuals
-* Circumvent security controls
-* Collect information unlawfully
-* Violate the terms of services you use
-
-The results produced by OSINT tools may contain false positives, false negatives, outdated information, or service-side errors. A FOUND result does not by itself prove ownership or identity.
-
-You are responsible for how you use this software and for complying with applicable laws and the terms of the services you query.
-
-⸻
-
-⭐ Support the Project
-
-If you find My OSINT useful:
-
-⭐ Star the repository
-🐛 Report bugs
-💡 Suggest improvements
-🔧 Contribute new modules
-
-⸻
-
-👨‍💻 Author
-
-anuveytq-sys
-
-Built for learning, experimentation, and responsible OSINT research.
-
-⸻
-
-📄 License
-
-My OSINT’s original code is licensed under the MIT License.
-
-Third-party components remain subject to their respective licenses.
+My-OSINT's original code is licensed under MIT. Third-party projects retain their own licenses and terms.
