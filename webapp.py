@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Local web dashboard for My-OSINT. Keeps main.py and the existing scan engine intact."""
 from __future__ import annotations
-import json, os, re, sqlite3, subprocess, threading, time, uuid
+import json, os, re, sqlite3, subprocess, threading, time, uuid, sys
 from datetime import datetime, timezone
 from pathlib import Path
 from flask import Flask, jsonify, render_template, request, send_file, abort
@@ -92,7 +92,7 @@ def run_task(task_id):
         else:
             emit(task_id, "Launching the existing user-scanner command.")
             proc = subprocess.Popen(
-                ["user-scanner", "-u", target], cwd=str(ROOT),
+                [sys.executable, "-m", "user_scanner", "-u", target], cwd=str(ROOT),
                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
                 bufsize=1, errors="replace"
             )
