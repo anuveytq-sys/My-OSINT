@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070b13"><title>My-OSINT // Desktop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+<div class="shell">
+<aside class="sidebar">
+  <a class="brand" href="/"><span class="brand-mark"><i></i><i></i><i></i></span><span>MY<span class="accent">OSINT</span><small>DESKTOP / FIELDWORK</small></span></a>
+  <div class="side-label">WORKSPACE</div>
+  <button class="nav-item active" data-view="workspace"><span class="nav-icon">⌘</span> Investigation desk <span class="nav-pip"></span></button>
+  <button class="nav-item" data-view="history"><span class="nav-icon">◷</span> Scan history</button>
+  <div class="side-label tools-label">CAPABILITIES</div>
+  <div class="capability"><span class="cap-icon cyan">✉</span><span>Email intelligence<small>GitHub · Reddit · Holehe</small></span><b>01</b></div>
+  <div class="capability"><span class="cap-icon violet">⌁</span><span>Phone intelligence<small>Number metadata · optional backends</small></span><b>02</b></div>
+  <div class="capability"><span class="cap-icon green">◎</span><span>Username discovery<small>user-scanner integration</small></span><b>03</b></div>
+  <div class="sidebar-bottom"><div class="system-status"><span class="pulse"></span><div><strong>LOCAL ENGINE</strong><small id="engineStatus">Checking connection…</small></div></div><div class="safe-note">Use only for lawful, authorized research. Results are leads—not proof of identity.</div><a class="repo-link" href="https://github.com/anuveytq-sys/My-OSINT" target="_blank" rel="noreferrer">↗ Repository on GitHub</a></div>
+</aside>
+<main class="main">
+<header class="topbar"><div class="crumb">MYOSINT <span>/</span> <strong id="crumbCurrent">INVESTIGATION DESK</strong></div><div class="top-right"><span class="live-dot"></span><span>LIVE LOOKUPS</span><span class="top-divider"></span><span class="local-chip">LOCAL SESSION</span></div></header>
+<section id="workspaceView">
+<div class="hero"><div><div class="eyebrow"><span class="eyebrow-line"></span> OPEN-SOURCE INTELLIGENCE WORKBENCH</div><h1>See the <span>signals.</span><br>Connect the dots.</h1><p>One workspace for email, phone and username research.<br>Existing My-OSINT modules. Real requests. Structured evidence.</p></div><div class="hero-orbit"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit-core">M<span>✳</span></div><div class="orbit-node node-one"></div><div class="orbit-node node-two"></div><div class="orbit-node node-three"></div><div class="orbit-label">SIGNAL<br>ANALYSIS</div></div></div>
+<div class="metrics"><div class="metric"><span class="metric-icon">◉</span><div><small>SCAN TYPES</small><strong>03</strong><em>Unified workspace</em></div></div><div class="metric"><span class="metric-icon cyan-text">⌁</span><div><small>ENGINE MODE</small><strong>LIVE</strong><em>Queries run on demand</em></div></div><div class="metric"><span class="metric-icon violet-text">▤</span><div><small>LOCAL HISTORY</small><strong id="historyCount">—</strong><em>Saved on this device</em></div></div><div class="metric"><span class="metric-icon green-text">◈</span><div><small>DATA SOURCE</small><strong>PUBLIC</strong><em>Third-party services vary</em></div></div></div>
+<div class="section-heading"><div><div class="eyebrow">01 / NEW INVESTIGATION</div><h2>Launch a scan</h2></div><span class="subtle">Choose a target type to begin</span></div>
+<div class="scan-layout">
+<div class="panel scan-panel"><div class="panel-top"><div class="panel-title"><span class="tiny-spark">✳</span> TARGET CONFIGURATION</div><span class="panel-index">SCN / 001</span></div>
+<div class="mode-tabs" role="tablist"><button class="mode-tab active" data-kind="email"><span>✉</span> Email</button><button class="mode-tab" data-kind="phone"><span>⌁</span> Phone</button><button class="mode-tab" data-kind="username"><span>◎</span> Username</button></div>
+<form id="scanForm"><label for="targetInput" id="targetLabel">EMAIL ADDRESS</label><div class="input-wrap"><span id="inputPrefix">@</span><input id="targetInput" autocomplete="off" spellcheck="false" placeholder="analyst@example.com" required maxlength="320"><button type="button" id="clearInput" title="Clear">×</button></div><div class="field-hint" id="fieldHint">Checks configured email modules and available integrations.</div><div class="target-meta"><span><i></i> LIVE DATA · NO MOCK RESULTS</span><span id="targetCounter">0 / 320</span></div>
+<div class="scan-options"><div><strong>SCAN PROFILE</strong><small>Use the existing engine configuration</small></div><span class="profile-pill">STANDARD <span>⌄</span></span></div>
+<button class="launch-btn" type="submit" id="launchBtn"><span class="launch-icon">⌁</span><span>Launch investigation</span><span class="btn-arrow">↗</span></button>
+<p class="form-disclaimer">Queries may be rate-limited or blocked by external services. A negative result is not proof that an account does not exist.</p></form></div>
+<div class="panel activity-panel"><div class="panel-top"><div class="panel-title"><span class="status-square"></span> OPERATION FEED</div><span class="panel-index" id="runState">STANDBY</span></div><div class="feed-empty" id="feedEmpty"><div class="empty-glyph"><span>⌁</span></div><strong>Awaiting target input</strong><p>Start a scan to see engine activity and results appear here.</p><div class="empty-lines"><i></i><i></i><i></i></div></div><div class="feed" id="feed" hidden></div><div class="feed-footer"><span><i class="pulse"></i> ENGINE TELEMETRY</span><span id="feedCount">0 EVENTS</span></div></div>
+</div>
+<div class="section-heading results-heading"><div><div class="eyebrow">02 / EVIDENCE REVIEW</div><h2>Results &amp; signals</h2></div><button class="export-btn" id="exportBtn" disabled>↓ Export JSON</button></div>
+<div class="panel results-panel"><div class="results-summary"><div><span class="summary-label">CURRENT TARGET</span><strong id="resultTarget">No investigation selected</strong></div><div class="result-counts"><span class="count found"><i></i><b id="foundCount">0</b> FOUND</span><span class="count notfound"><i></i><b id="notFoundCount">0</b> NOT FOUND</span><span class="count errors"><i></i><b id="errorCount">0</b> ERROR / UNKNOWN</span></div></div><div id="resultsArea" class="results-area"><div class="results-placeholder"><span>▧</span><p>Evidence will be shown here after a scan completes.</p></div></div><div class="results-foot"><span>⚑ Treat results as unverified signals, not identity confirmation.</span><span id="resultTimestamp">—</span></div></div>
+</section>
+<section id="historyView" hidden><div class="section-heading history-title"><div><div class="eyebrow">03 / LOCAL RECORDS</div><h2>Scan history</h2><p class="subtle">Recent investigations saved by this local server.</p></div><button class="export-btn" id="refreshHistory">↻ Refresh</button></div><div class="panel history-panel"><div id="historyTable"><div class="results-placeholder"><span>◷</span><p>Loading local history…</p></div></div></div></section>
+<footer class="footer"><span>MY-OSINT DESKTOP <i>•</i> RESPONSIBLE RESEARCH TOOLING</span><span>BUILT AROUND YOUR EXISTING CLI <span class="footer-mark">✳</span></span></footer>
+</main></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="/static/app.js"></script>
+</body></html>
